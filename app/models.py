@@ -3,6 +3,7 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import login
+from hashlib import md5
 
 
 class Users(UserMixin, db.Model):
@@ -11,6 +12,8 @@ class Users(UserMixin, db.Model):
 	email = db.Column(db.String(120), index=True, unique=True)
 	password_hash = db.Column(db.String(128))
 	posts = db.relationship('Posts', backref='author', lazy='dynamic')
+	about_me = db.Column(db.String(140))
+	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
 	def __repr__(self):
 		return '<Users {}>'.format(self.username)
